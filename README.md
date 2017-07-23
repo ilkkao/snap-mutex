@@ -1,6 +1,6 @@
 # promise-mutex
 
-A promise based mutex micro-library for JavaScript
+A promise based mutex micro-library for JavaScript. API is optimized for async functions.
 
 ## Installation
 
@@ -39,5 +39,5 @@ for (const i = 0; i < 9; i++) {
 }
 ```
 
-Remember to put `try ... finally` around the critical section so that the lock gets releases in
+Remember to put `try ... finally` around the critical section so that the lock gets released in
 all cases.
