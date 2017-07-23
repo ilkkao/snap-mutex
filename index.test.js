@@ -7,7 +7,7 @@ beforeEach(() => {
 });
 
 test('one caller', done => {
-  const lock = await mutex.acquire(lock => {
+  const lock = mutex.acquire().then(lock => {
     lock.release();
     done();
   });
