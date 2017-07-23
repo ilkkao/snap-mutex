@@ -1,15 +1,15 @@
-# promise-mutex
+# snap-mutex
 
 A promise based mutex micro-library for JavaScript. API is optimized for async functions.
 
 ## Installation
 
-  $ npm install --save promise-mutex
+  $ npm install --save snap-mutex
 
 ## Example
 
 ```javascript
-const mutex = require('promise-mutex');
+const mutex = require('snap-mutex');
 
 const myMutex = new Mutex();
 
@@ -26,7 +26,8 @@ async function onlyOneAtTime() {
 
   try {
     // Got the lock!
-    await doStuff();
+    //
+    // await doStuff();
   } finally {
     // Release the lock even if the doStuff() throws an exception
     lock.release();
