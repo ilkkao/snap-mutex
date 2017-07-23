@@ -2,6 +2,8 @@
 
 A promise based mutex micro-library for JavaScript. API is optimized for async functions.
 
+[![Build Status](https://travis-ci.org/ilkkao/snap-mutex.svg?branch=master)](https://travis-ci.org/ilkkao/snap-mutex)
+
 ## Installation
 
   $ npm install --save snap-mutex
