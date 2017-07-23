@@ -2,9 +2,7 @@
 
 A promise based mutex micro-library for JavaScript. API is optimized for async functions.
 
-[![Build Status](https://travis-ci.org/ilkkao/snap-mutex.svg?branch=master)](https://travis-ci.org/ilkkao/snap-mutex)
-
-[![Coverage Status](https://coveralls.io/repos/github/ilkkao/snap-mutex/badge.svg?branch=master)](https://coveralls.io/github/ilkkao/snap-mutex?branch=master)
+[![Build Status](https://travis-ci.org/ilkkao/snap-mutex.svg?branch=master)](https://travis-ci.org/ilkkao/snap-mutex) [![Coverage Status](https://coveralls.io/repos/github/ilkkao/snap-mutex/badge.svg?branch=master)](https://coveralls.io/github/ilkkao/snap-mutex?branch=master)
 
 ## Installation
 
