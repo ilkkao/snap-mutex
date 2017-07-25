@@ -11,7 +11,7 @@ A promise based mutex micro-library for JavaScript. API is optimized for async f
 ## Example
 
 ```javascript
-const mutex = require('snap-mutex');
+const Mutex = require('snap-mutex');
 
 const myMutex = new Mutex();
 
@@ -27,8 +27,7 @@ async function onlyOneAtTime() {
   }
 
   try {
-    // Got the lock!
-    //
+    console.log('Got the lock!');
     // await doStuff();
   } finally {
     // Release the lock even if the doStuff() throws an exception
@@ -37,7 +36,7 @@ async function onlyOneAtTime() {
 }
 
 // Now onlyOneAtTime() can be called freely
-for (const i = 0; i < 9; i++) {
+for (let i = 0; i < 9; i++) {
   onlyOneAtTime();
 }
 ```
