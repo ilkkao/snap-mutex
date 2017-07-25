@@ -8,34 +8,36 @@ class Mutex {
   }
 
   acquire({ timeout = false } = {}) {
-    const queue = this.queue;
-
     return new Promise((resolve, reject) => {
-      if (timeout !== false) {
-        setTimeout(() => {
-          const index = queue.indexOf(resolve);
+      let timer = null;
 
-          if (index > 0) { // Still waiting in the queue
-            queue.splice(index, 1);
-            reject('Queue timeout');
-          }
+      if (timeout !== false) {
+        timer = setTimeout(() => {
+          const index = this.queue.findIndex(item => item.resolve === resolve);
+          this.queue.splice(index, 1);
+          reject('Queue timeout');
         }, timeout);
       }
 
-      if (queue.push(resolve) === 1) {
-        // Queue was empty, resolve this promise immediately. Caller is kept in the queue until
-        // it calls release()
-        resolve({
-          release: function release() {
-            queue.shift();
+      this.queue.push({ resolve, timer });
 
-            if (queue.length > 0) {
-              queue[0]({ release }); // give the lock to the next in line by resolving the promise
-            }
-          }
-        });
+      if (this.queue.length === 1) {
+        this._resolveNext();
       }
     });
+  }
+
+  _removeActiveAndresolveNext() {
+    this.queue.shift();
+
+    if (this.queue.length > 0) {
+      this._resolveNext();
+    }
+  }
+
+  _resolveNext(remove) {
+    clearTimeout(this.queue[0].timer);
+    this.queue[0].resolve({ release: this._removeActiveAndresolveNext.bind(this) })
   }
 }
 
