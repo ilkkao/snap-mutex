@@ -6,7 +6,9 @@ A promise based mutex micro-library for JavaScript. API is optimized for async f
 
 ## Installation
 
+```bash
   $ npm install --save snap-mutex
+```
 
 ## Example
 
