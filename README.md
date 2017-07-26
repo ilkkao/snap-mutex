@@ -2,7 +2,7 @@
 
 A promise based mutex micro-library for JavaScript. API is optimized for async functions.
 
-Useful for example when you have a Express/Koa web server and as part of serving a request, you want to
+Useful for example when you have an Express/Koa web server and as part of serving a request, you want to
 write a line to a shared file. In this case there must be only one write operation in progress
 at any given time.
 
@@ -29,7 +29,7 @@ async function onlyOneAtTime() {
     lock = await myMutex.acquire({ timeout: 60000 }); // 60 seconds
   } catch (e) {
     // Failed to acquire the lock
-    throw new Error('Mutex locking timeout');
+    throw new Error('Mutex locking timeout, waited 60s');
   }
 
   try {
