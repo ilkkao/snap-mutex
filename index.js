@@ -2,42 +2,38 @@
 
 class Mutex {
   constructor() {
-    // Item at index 0 is the caller with the lock:
-    // [ <has the lock>, <waiting>, <waiting>, <waiting> ... ]
+    // Item at index 0 is the caller with the lock: [ <has the lock>, <waiting>, <waiting>, ... ]
     this.queue = [];
   }
 
   acquire({ timeout = false } = {}) {
+    const resolveNext = () => {
+      clearTimeout(this.queue[0].timer);
+
+      this.queue[0].resolve({
+        release: () => {
+          this.queue.shift();
+
+          if (this.queue.length > 0) {
+            resolveNext(this.queue);
+          }
+        }
+      })
+    };
+
     return new Promise((resolve, reject) => {
-      let timer = null;
-
-      if (timeout !== false) {
-        timer = setTimeout(() => {
-          const index = this.queue.findIndex(item => item.resolve === resolve);
-          this.queue.splice(index, 1);
+      this.queue.push({
+        resolve,
+        timer: timeout ? setTimeout(() => {
+          this.queue.splice(this.queue.findIndex(item => item.resolve === resolve), 1);
           reject('Queue timeout');
-        }, timeout);
-      }
-
-      this.queue.push({ resolve, timer });
+        }, timeout) : null
+      });
 
       if (this.queue.length === 1) {
-        this._resolveNext();
+        resolveNext(this.queue);
       }
     });
-  }
-
-  _removeActiveAndresolveNext() {
-    this.queue.shift();
-
-    if (this.queue.length > 0) {
-      this._resolveNext();
-    }
-  }
-
-  _resolveNext(remove) {
-    clearTimeout(this.queue[0].timer);
-    this.queue[0].resolve({ release: this._removeActiveAndresolveNext.bind(this) })
   }
 }
 
