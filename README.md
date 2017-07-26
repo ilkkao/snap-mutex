@@ -2,6 +2,10 @@
 
 A promise based mutex micro-library for JavaScript. API is optimized for async functions.
 
+Useful for example when you have a Koa web server and as part of serving a request, you want to
+write a line to a shared file. In this case there must be only one write operation in progress
+at any given time.
+
 [![Build Status](https://travis-ci.org/ilkkao/snap-mutex.svg?branch=master)](https://travis-ci.org/ilkkao/snap-mutex) [![Coverage Status](https://coveralls.io/repos/github/ilkkao/snap-mutex/badge.svg?branch=master)](https://coveralls.io/github/ilkkao/snap-mutex?branch=master)
 
 ## Installation
