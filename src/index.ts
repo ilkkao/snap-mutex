@@ -45,8 +45,16 @@ export class Mutex {
 
     clearTimeout(next.timer);
 
+    let released = false;
+
     next.resolve({
       release: () => {
+        // A second release() would remove the next holder from the queue
+        if (released) {
+          return;
+        }
+
+        released = true;
         this.queue.shift();
         this.resolveNext();
       },

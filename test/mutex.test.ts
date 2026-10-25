@@ -44,6 +44,28 @@ describe('Mutex', () => {
     assert.equal(secondGotLock, true);
   });
 
+  test('releasing the same lock twice does not release the next holder', async () => {
+    const first = await mutex.acquire();
+    const second = mutex.acquire();
+    let thirdGotLock = false;
+
+    void mutex.acquire().then(() => {
+      thirdGotLock = true;
+    });
+
+    first.release();
+    first.release();
+
+    const secondLock = await second;
+
+    await sleep(10);
+    assert.equal(thirdGotLock, false);
+
+    secondLock.release();
+    await sleep(0);
+    assert.equal(thirdGotLock, true);
+  });
+
   test('two callers, first one does not release the lock', async () => {
     await mutex.acquire();
 

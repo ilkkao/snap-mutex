@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### Fixes
+
+- Calling `release()` more than once on the same lock no longer releases the next holder's lock. Extra calls do nothing.
+
 ## 1.0.0
 
 The library is rewritten in TypeScript and published as an ES module with type definitions.

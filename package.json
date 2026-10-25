@@ -1,6 +1,6 @@
 {
   "name": "snap-mutex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Promise based mutex implementation",
   "type": "module",
   "exports": {
