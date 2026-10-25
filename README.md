@@ -1,5 +1,7 @@
 # snap-mutex
 
+The world needed one more mutex library.
+
 A promise-based mutex micro-library for JavaScript. Its API is designed for async functions.
 
 It is useful, for example, when an Express or Koa web server writes a line to a shared file while
