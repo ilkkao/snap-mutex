@@ -6,18 +6,18 @@ Useful for example when you have an Express/Koa web server and as part of servin
 write a line to a shared file. In this case there must be only one write operation in progress
 at any given time.
 
-[![Build Status](https://travis-ci.org/ilkkao/snap-mutex.svg?branch=master)](https://travis-ci.org/ilkkao/snap-mutex) [![Coverage Status](https://coveralls.io/repos/github/ilkkao/snap-mutex/badge.svg?branch=master)](https://coveralls.io/github/ilkkao/snap-mutex?branch=master)
+[![CI](https://github.com/ilkkao/snap-mutex/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ilkkao/snap-mutex/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/ilkkao/snap-mutex/branch/master/graph/badge.svg)](https://codecov.io/gh/ilkkao/snap-mutex) [![npm](https://img.shields.io/npm/v/snap-mutex.svg)](https://www.npmjs.com/package/snap-mutex)
+
+Requires Node.js 22 or later. The package is an ES module and includes TypeScript type definitions.
 
 ## Installation
 
-```bash
-  $ npm install --save snap-mutex
-```
+`npm install --save snap-mutex`
 
 ## Example
 
 ```javascript
-const Mutex = require('snap-mutex');
+import Mutex from 'snap-mutex';
 
 const myMutex = new Mutex();
 
@@ -27,7 +27,7 @@ async function onlyOneAtTime() {
   try {
     // Try to get the lock
     lock = await myMutex.acquire({ timeout: 60000 }); // 60 seconds
-  } catch (e) {
+  } catch {
     // Failed to acquire the lock
     throw new Error('Mutex locking timeout, waited 60s');
   }
@@ -49,3 +49,5 @@ for (let i = 0; i < 9; i++) {
 
 Remember to put `try ... finally` around the critical section so that the lock gets released in
 all cases.
+
+If `timeout` is given and the lock isn't acquired in time, the promise rejects with `Error('Queue timeout')`.
