@@ -1,10 +1,9 @@
 # snap-mutex
 
-A promise based mutex micro-library for JavaScript. API is optimized for async functions.
+A promise-based mutex micro-library for JavaScript. Its API is designed for async functions.
 
-Useful for example when you have an Express/Koa web server and as part of serving a request, you want to
-write a line to a shared file. In this case there must be only one write operation in progress
-at any given time.
+It is useful, for example, when an Express or Koa web server writes a line to a shared file while
+handling a request. Only one write operation may be in progress at any given time.
 
 [![CI](https://github.com/ilkkao/snap-mutex/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ilkkao/snap-mutex/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/ilkkao/snap-mutex/branch/master/graph/badge.svg)](https://codecov.io/gh/ilkkao/snap-mutex) [![npm](https://img.shields.io/npm/v/snap-mutex.svg)](https://www.npmjs.com/package/snap-mutex)
 
@@ -25,29 +24,28 @@ async function onlyOneAtTime() {
   let lock;
 
   try {
-    // Try to get the lock
+    // Try to acquire the lock
     lock = await myMutex.acquire({ timeout: 60000 }); // 60 seconds
   } catch {
     // Failed to acquire the lock
-    throw new Error('Mutex locking timeout, waited 60s');
+    throw new Error('Timed out after waiting 60 seconds for the lock');
   }
 
   try {
-    console.log('Got the lock!');
+    console.log('Lock acquired');
     // await doStuff();
   } finally {
-    // Release the lock even if the doStuff() throws an exception
+    // Release the lock even if doStuff() throws
     lock.release();
   }
 }
 
-// Now onlyOneAtTime() can be called freely
+// onlyOneAtTime() can now be called concurrently
 for (let i = 0; i < 9; i++) {
   onlyOneAtTime();
 }
 ```
 
-Remember to put `try ... finally` around the critical section so that the lock gets released in
-all cases.
+Wrap the critical section in `try ... finally` so that the lock is released in all cases.
 
-If `timeout` is given and the lock isn't acquired in time, the promise rejects with `Error('Queue timeout')`.
+If the lock isn't acquired within `timeout` milliseconds, `acquire()` rejects with `Error('Queue timeout')`.
