@@ -1,20 +1,50 @@
 {
   "name": "snap-mutex",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Promise based mutex implementation",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint --deny-warnings",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "coverage": "c8 node --test \"test/**/*.test.ts\"",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilkkao/snap-mutex.git"
+  },
+  "keywords": [
+    "mutex",
+    "lock",
+    "promise",
+    "async"
+  ],
   "author": "Ilkka Oksanen <iao@iki.fi> (http://iao.fi)",
   "license": "ISC",
-  "devDependencies": {
-    "coveralls": "^2.13.1",
-    "jest": "^20.0.4"
+  "bugs": {
+    "url": "https://github.com/ilkkao/snap-mutex/issues"
   },
-  "jest": {
-    "collectCoverage": true,
-    "coverageDirectory": "coverage"
+  "homepage": "https://github.com/ilkkao/snap-mutex#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "c8": "^12.0.0",
+    "oxlint": "^1.89.0",
+    "typescript": "^7.0.2"
   }
 }
